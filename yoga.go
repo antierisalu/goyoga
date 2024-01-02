@@ -15,6 +15,8 @@ import (
 	"google.golang.org/api/youtube/v3"
 )
 
+var Browser = "Brave"
+
 func main() {
 	openVideoInBrowser()   // From this month playlist play video which count equals to today's date
 	checkBrowserLocation() // When in right position exec moveBrowser
@@ -89,8 +91,9 @@ func openVideoInBrowser() {
 
 func checkBrowserLocation() { // Execute xdotool command to check browser window location
 	time.Sleep(2 * time.Second)
-	
-	cmd, err := exec.Command("sh", "-c", "xdotool search --onlyvisible --class Brave getwindowgeometry --shell | grep -oP 'X=\\K\\d+'").CombinedOutput()
+
+	cmdToEnter := "xdotool search --onlyvisible --class " + Browser + " getwindowgeometry --shell | grep -oP 'X=\\K\\d+'"
+	cmd, err := exec.Command("sh", "-c", cmdToEnter).CombinedOutput()
 	xPos := string(cmd)
 	log.Print("xPosition is:", xPos)
 	if err != nil && xPos >= "0" && xPos < "1820" {
@@ -102,8 +105,8 @@ func checkBrowserLocation() { // Execute xdotool command to check browser window
 }
 
 func moveBrowser() { // Move the browser window to the right screen
-
-	cmd, err := exec.Command("xdotool", "search", "--onlyvisible", "--class", "brave", "windowmove", "--relative", "--", "1920", "0").CombinedOutput()
+	moveWithCmd := ("xdotool search --onlyvisible --class " + Browser + " windowmove --relative -- 1920 0")
+	cmd, err := exec.Command(moveWithCmd).CombinedOutput()
 	if err != nil {
 		log.Printf("Error moving browser window: %s\n%s", err, cmd)
 	} else {
@@ -131,7 +134,8 @@ func pressKeys() {
 	time.Sleep(3 * time.Second)
 
 	// Simulate key presses in the Brave browser window
-	cmd := exec.Command("xdotool", "search", "--onlyvisible", "--class", "brave", "key", "--window", "%1", "f", "c")
+
+	cmd := exec.Command("xdotool", "search", "--onlyvisible", "--class", "brave", "key", "--window", "%1", "f")
 	err := cmd.Run()
 	if err != nil {
 		log.Fatalf("Error pressing keys: %v", err)
