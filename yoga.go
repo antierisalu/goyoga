@@ -15,7 +15,7 @@ import (
 	"google.golang.org/api/youtube/v3"
 )
 
-var Browser = "Brave"
+var Browser = "Brave'"
 
 func main() {
 	openVideoInBrowser()   // From this month playlist play video which count equals to today's date
@@ -56,13 +56,18 @@ func openVideoInBrowser() {
 	}
 
 	var selectedPlaylist *youtube.Playlist
-
+	
 	// Find playlist for the current month
 	for _, playlist := range playlistsResponse.Items {
 		if month := time.Now().Month().String(); strings.Contains(playlist.Snippet.Title, month) {
 			selectedPlaylist = playlist
 			break
+		} else {
+			// get the last playlist
+			selectedPlaylist = playlistsResponse.Items[0]
+			
 		}
+		fmt.Println(selectedPlaylist)
 	}
 
 	// Check if no playlist found for the current month
@@ -78,9 +83,9 @@ func openVideoInBrowser() {
 	}
 
 	// Calculate index of the video for the current day
-	videoIndex := (time.Now().Day() - 1) % len(playlistItemsResponse.Items)
+	videoIndex := (time.Now().Day()) % len(playlistItemsResponse.Items)-1
 	videoId := playlistItemsResponse.Items[videoIndex].Snippet.ResourceId.VideoId
-	videoURL := fmt.Sprintf("https://www.youtube.com/watch?v=%s", videoId)
+	videoURL := fmt.Sprintf("https://www.youtube.com/embed/%s"+"?autoplay=1", videoId)
 
 	// Open the video URL in a web browser
 	err = open.Run(videoURL)
@@ -96,7 +101,7 @@ func checkBrowserLocation() { // Execute xdotool command to check browser window
 	cmd, err := exec.Command("sh", "-c", cmdToEnter).CombinedOutput()
 	xPos := string(cmd)
 	log.Print("xPosition is:", xPos)
-	if err != nil && xPos >= "0" && xPos < "1820" {
+	if err != nil && xPos >= "0" && xPos < "2400" {
 		log.Println("Browser window is on the right screen or not found")
 		return
 	}
@@ -135,7 +140,7 @@ func pressKeys() {
 
 	// Simulate key presses in the Brave browser window
 
-	cmd := exec.Command("xdotool", "search", "--onlyvisible", "--class", "brave", "key", "--window", "%1", "f")
+	cmd := exec.Command("xdotool", "search", "--onlyvisible", "--class", "brave", "key", "--window", "%1", "f", "c")
 	err := cmd.Run()
 	if err != nil {
 		log.Fatalf("Error pressing keys: %v", err)
