@@ -28,7 +28,7 @@ func openVideoInBrowser() {
 	ctx := context.Background()
 
 	// Read the client secret file
-	secretFile, err := os.ReadFile("alpine-realm-381711-182fcef9362c.json")
+	secretFile, err := os.ReadFile("alpine-realm-381711-c882a05f7e41.json")
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
 	}
@@ -56,7 +56,7 @@ func openVideoInBrowser() {
 	}
 
 	var selectedPlaylist *youtube.Playlist
-	
+
 	// Find playlist for the current month
 	for _, playlist := range playlistsResponse.Items {
 		if month := time.Now().Month().String(); strings.Contains(playlist.Snippet.Title, month) {
@@ -65,7 +65,6 @@ func openVideoInBrowser() {
 		} else {
 			// get the last playlist
 			selectedPlaylist = playlistsResponse.Items[0]
-			
 		}
 		fmt.Println(selectedPlaylist)
 	}
@@ -83,7 +82,7 @@ func openVideoInBrowser() {
 	}
 
 	// Calculate index of the video for the current day
-	videoIndex := (time.Now().Day()) % len(playlistItemsResponse.Items)-1
+	videoIndex := (time.Now().Day())%len(playlistItemsResponse.Items) - 1
 	videoId := playlistItemsResponse.Items[videoIndex].Snippet.ResourceId.VideoId
 	videoURL := fmt.Sprintf("https://www.youtube.com/embed/%s"+"?autoplay=1", videoId)
 
