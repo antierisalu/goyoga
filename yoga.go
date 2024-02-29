@@ -81,8 +81,7 @@ func openVideoInBrowser() {
 		log.Fatalf("Error fetching playlist items: %v", err)
 	}
 
-	// Calculate index of the video for the current day
-	videoIndex := (time.Now().Day())%len(playlistItemsResponse.Items) - 1
+	videoIndex := (time.Now().Day() - 1)
 	videoId := playlistItemsResponse.Items[videoIndex].Snippet.ResourceId.VideoId
 	videoURL := fmt.Sprintf("https://www.youtube.com/embed/%s"+"?autoplay=1", videoId)
 
