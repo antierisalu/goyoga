@@ -8,6 +8,6 @@ example:
 
 https://yoga.matansa.ee
 
-To have one click executable which opens browser, moves browser to necessary screen, changes audio output to correct device(for example tv or speakers), puts video fullscreen and disables captions. For that you need to edit [yoga.go](yoga.go), to set right screen and audio data and then build an executable.
+You Can have one click executable which opens browser, moves browser to necessary screen, changes audio output to correct device(for example tv or speakers), puts video fullscreen and disables captions. For that you need to edit [yoga.go](yoga.go), to set wanted screen and audio device and then build an executable.
 
 TODO: oneclick add-on to Kodi
