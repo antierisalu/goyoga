@@ -31,7 +31,7 @@ func openVideoInBrowser() {
 	ctx := context.Background()
 
 	// Read the client secret file
-	secretFile, err := os.ReadFile("../alpine-realm-381711-c882a05f7e41.json")
+	secretFile, err := os.ReadFile("alpine-realm-381711-c882a05f7e41.json")
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
 	}
